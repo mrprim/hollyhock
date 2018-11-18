@@ -1,37 +1,23 @@
-import React, { Component } from 'react'
-import './index.css'
-import context from '../Character/context'
+import React from 'react'
+import Field from '../Field'
+import { FieldArray } from 'redux-form'
 
-class Skills extends Component {
-  constructor (props) {
-    super(props)
-    this.addSkill = this.addSkill.bind(this)
-  }
+const Skills = () =>
+  <div>
+    <h3>Skills</h3>
+    <FieldArray name='skills' component={SkillArray} />
+  </div>
 
-  addSkill () {
-    let skills = this.context.formValues.skills || []
-    skills.push({})
-    console.log('s', skills)
-    const formValues = {
-      ...this.context.formValues,
-      skills
-    }
-    this.context.setFormState({formValues})
-  }
+const SkillArray = ({ fields }) =>
+  <ul>
+    <li onClick={() => fields.push()}>Add</li>
+    { fields.map(renderSkill(fields)) }
+  </ul>
 
-  render () {
-    const skills = (this.context.formValues.skills || [])
-    return (
-      <div>
-        <h3>Skills</h3>
-        {skills.map(Skill)}
-        <div onClick={this.addSkill}>Add</div>
-      </div>
-    )
-  }
-}
-Skills.contextType = context
-
-const Skill = () => <div>Skill</div>
+const renderSkill = fields => (member, i) =>
+  <li key={member}>
+    <Field name={`${member}.name`} label='name' />
+    <span onClick={() => fields.remove(i)}>X</span>
+  </li>
 
 export default Skills

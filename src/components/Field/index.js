@@ -1,46 +1,21 @@
-import React, { Component } from 'react'
-import './index.css'
+import React from 'react'
 import TextField from '@material-ui/core/TextField'
-import context from '../Character/context'
+import { Field as FormField } from 'redux-form'
 
-class Field extends Component {
-  constructor (props) {
-    super(props)
-    this.onChange = this.onChange.bind(this)
-    this.setValue = this.setValue.bind(this)
-  }
+const renderTextField = ({
+  input,
+  label,
+  meta: { touched, error },
+  ...custom
+}) => (
+  <TextField
+    label={label}
+    {...input}
+    {...custom}
+  />
+)
 
-  onChange (ev) {
-    const props = this.props
-    let value = ev.target.value
-
-    if (props.filter) {
-      value = props.filter(value)
-    }
-    this.setValue(value)
-  }
-
-  setValue (val) {
-    const props = this.props
-    const formValues = {
-      ...this.context.formValues,
-      [props.name]: val
-    }
-    this.context.setFormState({formValues})
-  }
-
-  render () {
-    const { label, name } = this.props
-
-    return (
-      <TextField
-        label={label}
-        name={name}
-        value={this.context.formValues[name] || ''}
-        onChange={this.onChange} />
-    )
-  }
-}
-Field.contextType = context
+const Field = ({ label, name }) =>
+  <FormField name={name} label={label} component={renderTextField} />
 
 export default Field

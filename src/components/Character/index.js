@@ -1,37 +1,10 @@
-import React, { Component } from 'react'
-import './index.css'
-import Summary from '../Summary'
-import Skills from '../Skills'
-import context from './context'
+import React from 'react'
 
-const CharacterContext = context
+import CharacterForm from '../CharacterForm'
 
-class Character extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      formValues: {},
-      setFormState: this.setFormState.bind(this)
-    }
-  }
-
-  setFormState (data) {
-    this.setState(data)
-  }
-
-  render () {
-    return (
-      <div>
-        <CharacterContext.Provider value={this.state}>
-          <Summary />
-          <Skills />
-        </CharacterContext.Provider>
-        <div>
-          {JSON.stringify(this.state)}
-        </div>
-      </div>
-    )
-  }
-}
+const Character = () =>
+  <div>
+    <CharacterForm />
+  </div>
 
 export default Character
